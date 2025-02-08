@@ -28,5 +28,29 @@
   </section>
   <section id="content">
   </section>
+  <script>
+    const getDataButton = document.querySelector('#send');
+    const typeSelector = document.querySelector('#type');
+
+    const dataToHtmlOnClick = (data) => {
+      console.log(data);
+
+      if (typeSelector.value === 'text/xml') {
+        
+      } else {
+
+      }
+    }
+
+    const getDataJSON = async (e) => {
+
+    }
+
+    const getDataXML = async (e) => {
+
+    }
+
+    getDataButton.addEventListener(dataToHtmlOnClick);
+  </script>
 </body>
 </html>
