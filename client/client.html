@@ -30,27 +30,65 @@
   </section>
   <script>
     const getDataButton = document.querySelector('#send');
+    const pageSelector = document.querySelector('#page');
     const typeSelector = document.querySelector('#type');
+    const contentSection = document.querySelector('#content');
 
-    const dataToHtmlOnClick = (data) => {
-      console.log(data);
+    const dataToHtml = (data) => {
 
-      if (typeSelector.value === 'text/xml') {
-        
-      } else {
-
-      }
+      // used ChatGPT to help get select option text after google search failed
+      // selectedIndex is a property of <select> that returns the index of the selected option from an array-like list
+      const heading = pageSelector.options[pageSelector.selectedIndex].text;
+      
+      return `
+        <h1>${heading}</h1>
+        <p>${data.message}</p>
+      `;
     }
 
     const getDataJSON = async (e) => {
+      const response = await fetch(pageSelector.value, {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json'
+        }
+      });
 
+      const result = await response.json();
+      console.log(result);
+
+      const dataHtml = dataToHtml(result);
+
+      contentSection.innerHTML = dataHtml;
     }
 
     const getDataXML = async (e) => {
+      const response = await fetch(pageSelector.value, {
+        method: 'GET',
+        headers: {
+          'accept': 'text/xml'
+        }
+      });
+      const resultText = await response.text();
+      console.log(resultText);
 
+      const parsedResponse = new window.DOMParser().parseFromString(resultText, 'text/xml');
+      const xmlText = parsedResponse.querySelector('message').innerHTML;
+
+      const dataHtml = dataToHtml({'message': `${xmlText}` });
+
+      contentSection.innerHTML = dataHtml;
     }
 
-    getDataButton.addEventListener(dataToHtmlOnClick);
+    const getDataOnClick = async (e) => {
+      if (typeSelector.value === 'text/xml') {
+        await getDataXML(e);
+      } else {
+        await getDataJSON(e);
+      }
+    }
+
+    getDataButton.addEventListener('click', getDataOnClick);
   </script>
 </body>
 </html>

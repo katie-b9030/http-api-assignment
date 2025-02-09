@@ -1,13 +1,21 @@
-const text = require('./textResponses.js');
-
 const successData = (request, response) => {
-  const successJSON = {
+  const success = {
     message: 'This is a successful response',
   };
-  const stringMessage = JSON.stringify(successJSON);
 
-  response.writeHead(200, { 'Content-Type': 'application/json' });
-  response.write(stringMessage);
+  let responseMessage; let
+    contentType;
+
+  if (request.acceptedTypes[0] === 'text/xml') {
+    responseMessage = `<response><message>${success.message}</message></response>`;
+    contentType = 'text/xml';
+  } else {
+    responseMessage = JSON.stringify(success);
+    contentType = 'application/json';
+  }
+
+  response.writeHead(200, { 'Content-Type': `${contentType}` });
+  response.write(responseMessage);
   response.end();
 };
 
