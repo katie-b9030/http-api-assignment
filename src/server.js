@@ -18,11 +18,11 @@ const onRequest = (request, response) => {
   } else if (request.url === '/badRequest') {
     dataHandler.badData(request, response);
   } else if (request.url === '/badRequest?valid=true') {
-    dataHandler.badValidData(request, response);
+    dataHandler.badDataValid(request, response);
   } else if (request.url === '/unauthorized') {
     dataHandler.unauthorizedData(request, response);
   } else if (request.url === '/unauthorized?loggedIn=yes') {
-    dataHandler.unauthorizedLoggedInData(request, response);
+    dataHandler.unauthorizedDataLoggedIn(request, response);
   } else if (request.url === '/forbidden') {
     dataHandler.forbiddenData(request, response);
   } else if (request.url === '/internal') {

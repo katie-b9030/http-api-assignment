@@ -38,11 +38,14 @@
 
       // used ChatGPT to help get select option text after google search failed
       // selectedIndex is a property of <select> that returns the index of the selected option from an array-like list
-      const heading = pageSelector.options[pageSelector.selectedIndex].text;
+      let heading = pageSelector.options[pageSelector.selectedIndex].text;
+      if (heading === 'Internal') {
+        heading = 'Internal Server Error';
+      }
       
       return `
         <h1>${heading}</h1>
-        <p>${data.message}</p>
+        <p>Message: ${data.message}</p>
       `;
     }
 
@@ -55,7 +58,7 @@
       });
 
       const result = await response.json();
-      console.log(result);
+      console.log(JSON.stringify(result));
 
       const dataHtml = dataToHtml(result);
 
